@@ -19,4 +19,10 @@ migrateup:
 migratedown:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
-.PHONY: postgres createdb dropdb stopdb rmdb migrateup migratedown
+installsqlc:
+	brew install kyleconroy/sqlc/sqlc
+
+sqlc:
+	sqlc generate
+
+.PHONY: postgres createdb dropdb stopdb rmdb migrateup migratedown installsqlc sqlc
