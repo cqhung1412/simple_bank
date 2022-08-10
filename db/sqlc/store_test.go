@@ -21,7 +21,7 @@ func TestTransfer(t *testing.T) {
 	acc2 := createRandomAccount(t)
 	fmt.Println(">> before:", acc1.Balance, acc2.Balance)
 
-	n := 2
+	n := 5
 	amount := int64(100)
 
 	// run n concurrent transfer transaction
@@ -96,7 +96,7 @@ func TestTransfer(t *testing.T) {
 		require.Equal(t, acc2.ID, toAccount.ID)
 
 		// check accounts' balance
-		fmt.Println(">> tx:", i, fromAccount.Balance, toAccount.Balance)
+		fmt.Println(">> tx:", i+1, fromAccount.Balance, toAccount.Balance)
 		diff1 := acc1.Balance - fromAccount.Balance
 		diff2 := acc2.Balance - toAccount.Balance
 		require.Equal(t, diff1, -diff2)
