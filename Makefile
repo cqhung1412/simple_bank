@@ -29,9 +29,9 @@ build:
 	go build -v ./...
 
 test:
-	go test -v -cover ./...
+	go mod tidy && go test -v -cover ./...
 
 server:
-	go run main.go
+	go mod tidy && go run main.go
 
 .PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc build test server
