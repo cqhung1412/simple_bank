@@ -24,3 +24,8 @@ brew install kyleconroy/sqlc/sqlc
 ```
 sudo snap install sqlc
 ```
+3. Docker
+```
+docker pull kjconroy/sqlc
+docker run --rm -v $(pwd):/src -w /src kjconroy/sqlc generate
+```

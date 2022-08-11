@@ -31,4 +31,7 @@ build:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc build test
+server:
+	go run main.go
+
+.PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc build test server
