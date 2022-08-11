@@ -16,9 +16,6 @@ rmdb:
 psql:
 	docker exec -ti postgres_container psql -U root -d simple_bank
 
-installmigrate:
-	curl -L https://github.com/golang-migrate/migrate/releases/download/v4.12.2/migrate.linux-amd64.tar.gz | tar xvz
-
 migrateup:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
@@ -31,4 +28,4 @@ sqlc:
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb stopdb rmdb psql installmigrate migrateup migratedown sqlc test
+.PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc test
