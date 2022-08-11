@@ -26,7 +26,7 @@ sqlc:
 	sqlc generate
 
 build:
-	go build -v .
+	go build -v ./...
 
 test:
 	go test -v -cover ./...
