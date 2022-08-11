@@ -54,7 +54,7 @@ jobs:
           fi
 
       - name: Build
-        run: make build
+        run: go build -v ./...
       
       - name: Test
         run: make test
