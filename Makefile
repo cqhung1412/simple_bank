@@ -25,7 +25,10 @@ migratedown:
 sqlc:
 	sqlc generate
 
+build:
+	go build -v .
+
 test:
 	go test -v -cover ./...
 
-.PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc test
+.PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc build test
