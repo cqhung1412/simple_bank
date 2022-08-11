@@ -1,3 +1,5 @@
+![](https://github.com/cqhung1412/simple_bank/actions/workflows/ci.yml/badge.svg)
+
 ## Reference
 [TECH SCHOOL - Backend Master Class](https://dev.to/techschoolguru/backend-master-class-go-postgres-kubernetes-aws-3ol)
 
