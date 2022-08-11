@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestTransfer(t *testing.T) {
+func TestTransferTx(t *testing.T) {
 	conn, err := sql.Open(dbDriver, dbSource)
 	if err != nil {
 		log.Fatal("Cannot connect to db:", err)
@@ -21,7 +21,7 @@ func TestTransfer(t *testing.T) {
 	acc2 := createRandomAccount(t)
 	fmt.Println(">> before:", acc1.Balance, acc2.Balance)
 
-	n := 5
+	n := 2
 	amount := int64(100)
 
 	// run n concurrent transfer transaction
@@ -121,5 +121,60 @@ func TestTransfer(t *testing.T) {
 
 	require.Equal(t, acc1.Balance-int64(n)*amount, updatedAcc1.Balance)
 	require.Equal(t, acc2.Balance+int64(n)*amount, updatedAcc2.Balance)
+}
+
+func TestTransferTxDeadlock(t *testing.T) {
+	conn, err := sql.Open(dbDriver, dbSource)
+	if err != nil {
+		log.Fatal("Cannot connect to db:", err)
+	}
+	store := NewStore(conn)
+
+	acc1 := createRandomAccount(t)
+	acc2 := createRandomAccount(t)
+	fmt.Println(">> before:", acc1.Balance, acc2.Balance)
+
+	n := 10
+	amount := int64(100)
+
+	// run n concurrent transfer transaction
+	errs := make(chan error)
+
+	for i := 0; i < n; i++ {
+		fromAccountID := acc1.ID
+		toAccountID := acc2.ID
+
+		// every odd transfer, acc2 will transfer money to acc1
+		if i%2 == 1 {
+			fromAccountID = acc2.ID
+			toAccountID = acc1.ID
+		}
+
+		go func() {
+			_, err := store.TransferTx(context.Background(), TransferTxParams{
+				FromAccountID:  fromAccountID,
+				ToAccountID:    toAccountID,
+				TransferAmount: amount,
+			})
+
+			errs <- err
+		}()
+	}
+
+	for i := 0; i < n; i++ {
+		err := <-errs
+		require.NoError(t, err)
+	}
+
+	// check the final updated balance (should be the same as before)
+	updatedAccount1, err := store.GetAccount(context.Background(), acc1.ID)
+	require.NoError(t, err)
+
+	updatedAccount2, err := store.GetAccount(context.Background(), acc2.ID)
+	require.NoError(t, err)
+
+	fmt.Println(">> after:", updatedAccount1.Balance, updatedAccount2.Balance)
+	require.Equal(t, acc1.Balance, updatedAccount1.Balance)
+	require.Equal(t, acc2.Balance, updatedAccount2.Balance)
 
 }
