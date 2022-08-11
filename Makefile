@@ -35,6 +35,6 @@ server:
 	go mod tidy && go run main.go
 
 mock:
-  mockgen -package mockdb -destination db/mock/store.go github.com/cqhung1412/simple_bank/db/sqlc Store
+	mockgen -package mockdb -destination db/mock/store.go github.com/cqhung1412/simple_bank/db/sqlc Store
 
 .PHONY: postgres createdb dropdb stopdb rmdb psql migrateup migratedown sqlc build test server mock
