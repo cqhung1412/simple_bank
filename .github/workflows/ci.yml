@@ -45,6 +45,14 @@ jobs:
       - name: Run migrations
         run: make migrateup
         
+      - name: Get dependencies
+        run: |
+          go get -v -t -d ./...
+          if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+          fi
+
       - name: Build
         run: make build
       
