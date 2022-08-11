@@ -30,7 +30,13 @@ jobs:
         with:
           go-version: 1.18
         id: go
-      
+
+      - name: Install golang-migrate
+        run: | 
+          make installmigrate
+          sudo mv migrate.linux-amd64 /usr/bin/
+          which migrate
+
       - name: Check out code
         uses: actions/checkout@v2
 
