@@ -29,3 +29,8 @@ sudo snap install sqlc
 docker pull kjconroy/sqlc
 docker run --rm -v $(pwd):/src -w /src kjconroy/sqlc generate
 ```
+
+### Mockgen
+```
+go install github.com/golang/mock/mockgen@v1.6.0
+```
