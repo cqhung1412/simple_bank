@@ -36,7 +36,7 @@ require (
 
 require (
 	github.com/gin-gonic/gin v1.8.1
-	github.com/go-playground/validator/v10 v10.11.0 // indirect
+	github.com/go-playground/validator/v10 v10.11.0
 	github.com/goccy/go-json v0.9.10 // indirect
 	github.com/golang/mock v1.6.0
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
