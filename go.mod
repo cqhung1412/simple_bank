@@ -41,7 +41,7 @@ require (
 	github.com/golang/mock v1.6.0
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/stretchr/testify v1.8.0
-	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
+	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
 	golang.org/x/net v0.0.0-20220809184613-07c6da5e1ced // indirect
 	golang.org/x/sys v0.0.0-20220808155132-1c4a2a72c664 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
