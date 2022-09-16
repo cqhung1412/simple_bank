@@ -9,18 +9,20 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	mockdb "github.com/cqhung1412/simple_bank/db/mock"
 	db "github.com/cqhung1412/simple_bank/db/sqlc"
+	"github.com/cqhung1412/simple_bank/token"
 	"github.com/cqhung1412/simple_bank/util"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 )
 
-func randomAccount() db.Account {
+func randomAccount(owner string) db.Account {
 	return db.Account{
 		ID:       util.RandomInt(1, 1000),
-		Owner:    util.RandomOwner(),
+		Owner:    owner,
 		Balance:  util.RandomMoney(),
 		Currency: util.RandomCurrency(),
 	}
@@ -37,8 +39,12 @@ func requireBodyMatchAccount(t *testing.T, body *bytes.Buffer, account db.Accoun
 }
 
 func TestGetAccountAPI(t *testing.T) {
-	account := randomAccount()
+	user, _ := randomUser()
+	account := randomAccount(user.Username)
 
+	setupAuth := func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
+		addAuthorization(t, request, tokenMaker, authTypeBearer, user.Username, time.Minute)
+	}
 	testCases := []struct {
 		name          string
 		accountId     int64
@@ -116,6 +122,7 @@ func TestGetAccountAPI(t *testing.T) {
 			request, err := http.NewRequest(http.MethodGet, url, nil)
 			require.NoError(t, err)
 
+			setupAuth(t, request, server.tokenMaker)
 			server.router.ServeHTTP(recorder, request)
 			tc.checkResponse(t, recorder)
 		})
