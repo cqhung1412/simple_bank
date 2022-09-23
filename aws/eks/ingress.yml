@@ -9,16 +9,22 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: simple-bank-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
   rules:
-  - host: "api.bearbanking.com"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: simple-bank-api-service
-            port: 
-              number: 80
+    - host: "api.bigcitybear.info"
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: simple-bank-api-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - api.bigcitybear.info
+      secretName: simple-bank-api-cert
