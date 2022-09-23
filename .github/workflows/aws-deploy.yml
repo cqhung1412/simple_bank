@@ -37,7 +37,7 @@ jobs:
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   deploy:
-    name: Build docker image
+    name: Deploy to EKS
     runs-on: ubuntu-latest
     needs: build
 
