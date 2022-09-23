@@ -33,7 +33,7 @@ jobs:
           REPOSITORY: simplebank
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t latest .
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
   deploy:
@@ -45,6 +45,9 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v3
         id: install
+      
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name simple-bank --region ap-southeast-1
     
       - name: kubectl apply
         run: |
