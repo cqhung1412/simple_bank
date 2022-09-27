@@ -37,7 +37,7 @@ jobs:
 
     - name: Deploy Amazon EKS Cluster
       id: eks-stack
-      uses: aws-actions/aws-cloudformation-github-deploy@master
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: ${{ steps.env-name.outputs.environment }}-cluster
         template: aws/cloudformation/eks-stack.yml
