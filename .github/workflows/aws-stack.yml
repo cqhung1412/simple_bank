@@ -39,5 +39,5 @@ jobs:
       id: eks-stack
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: ${{ steps.env-name.outputs.environment }}-cluster
+        name: simple-bank
         template: aws/cloudformation/eks-stack.yml
