@@ -46,6 +46,9 @@ jobs:
         uses: azure/setup-kubectl@v3
         id: install
       
+      - name: Check out code
+        uses: actions/checkout@v2
+      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
