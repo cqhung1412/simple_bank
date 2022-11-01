@@ -36,8 +36,22 @@ jobs:
         echo "::set-output name=environment::$ENVIRONMENT"
 
     - name: Deploy Amazon EKS Cluster
-      id: eks-stack
+      id: eks-cluster
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
         name: simple-bank
-        template: aws/cloudformation/eks-stack.yml
+        template: aws/cloudformation/eks-cluster.yml
+    
+    - name: Deploy Amazon EKS Addons
+      id: eks-addons
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: simple-bank
+        template: aws/cloudformation/eks-addon.yml
+    
+    - name: Deploy Amazon EKS Nodegroup
+      id: eks-nodegroup
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: simple-bank
+        template: aws/cloudformation/eks-nodegroup.yml

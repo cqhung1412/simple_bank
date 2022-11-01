@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploy EKS Addons
+
+Resources:
+  VpcCni:
+    Type: AWS::EKS::Addon
+    Properties:
+      AddonName: vpc-cni
+      AddonVersion: v1.11.4-eksbuild.1
+      ClusterName: !ImportValue simple-bank-cluster
+      ResolveConflicts: OVERWRITE
+      Tags:
+        - Key: created_by
+          Value: bear
+        - Key: eks_addon
+          Value: True

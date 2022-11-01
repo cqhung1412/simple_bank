@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploy Managed Kubernetes Resources - Cluster
+
+Resources:
+  KubeCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      ResourcesVpcConfig:
+        SubnetIds:
+          - subnet-0f3dae693c201c201
+          - subnet-080a66ade72fa57d1
+          - subnet-0683015a39d64df1b
+        SecurityGroupIds:
+          - sg-050506022ca3e9883 # access_anywhere
+        EndpointPublicAccess: true
+        EndpointPrivateAccess: true
+      RoleArn: !GetAtt KubeClusterRole.Arn
+      Version: "1.23"
+  KubeClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - eks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+
+Outputs:
+  KubeClusterName:
+    Description: Simple Bank Cluster
+    Value: !Ref KubeCluster
+    Export:
+      Name: simple-bank-cluster

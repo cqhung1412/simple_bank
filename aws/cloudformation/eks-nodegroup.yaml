@@ -1,0 +1,40 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploy Managed Kubernetes Resources - Worker Nodes
+
+Resources:
+  KubeNodeGroupRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+  KubeClusterNodegroupFleet:
+    Type: AWS::EKS::Nodegroup
+    Properties:
+      ClusterName: !ImportValue simple-bank-cluster
+      NodeRole: !GetAtt KubeNodeGroupRole.Arn
+      InstanceTypes:
+        - t2.micro
+      CapacityType: SPOT
+      ScalingConfig:
+        MinSize: 0
+        DesiredSize: 1
+        MaxSize: 2
+      Labels:
+        kube-node-group: True
+        app: simple-bank
+      Subnets:
+        - subnet-0683015a39d64df1b
+        - subnet-080a66ade72fa57d1
+      Tags: { "created_by": "bear", "purpose": "learning", "eks_role": "node_group" }
+      
