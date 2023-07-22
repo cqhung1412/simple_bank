@@ -2,11 +2,13 @@ package api
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	db "github.com/cqhung1412/simple_bank/db/sqlc"
 	"github.com/cqhung1412/simple_bank/token"
 	"github.com/cqhung1412/simple_bank/util"
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -38,6 +40,8 @@ func (server *Server) setupRouter() {
 	authRoutes.DELETE("/accounts/:id", server.deleteAccount)
 
 	authRoutes.POST("/transfer", server.createTransfer)
+
+	log.Fatal(autotls.Run(r, "api.bigcitybear.info"))
 
 	server.router = router
 }
