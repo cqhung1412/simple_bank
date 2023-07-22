@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"net/http"
 
 	db "github.com/cqhung1412/simple_bank/db/sqlc"
 	"github.com/cqhung1412/simple_bank/token"
@@ -22,6 +23,12 @@ func (server *Server) setupRouter() {
 	router := gin.Default()
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 
+	router.GET("/", func(ctx *gin.Context) {
+		// hello route
+		ctx.JSON(http.StatusOK, gin.H{
+			"hello": "world",
+		})
+	})
 	router.POST("/user", server.createUser)
 	router.POST("/users/login", server.loginUser)
 
