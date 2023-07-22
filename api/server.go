@@ -41,7 +41,7 @@ func (server *Server) setupRouter() {
 
 	authRoutes.POST("/transfer", server.createTransfer)
 
-	log.Fatal(autotls.Run(r, "api.bigcitybear.info"))
+	log.Fatal(autotls.Run(router, "api.bigcitybear.info"))
 
 	server.router = router
 }
