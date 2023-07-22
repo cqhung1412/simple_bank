@@ -2,13 +2,11 @@ package api
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	db "github.com/cqhung1412/simple_bank/db/sqlc"
 	"github.com/cqhung1412/simple_bank/token"
 	"github.com/cqhung1412/simple_bank/util"
-	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -22,6 +20,14 @@ type Server struct {
 }
 
 func (server *Server) setupRouter() {
+	// Create context that listens for the interrupt signal from the OS.
+	// _ctx, stop := signal.NotifyContext(
+	// 	context.Background(),
+	// 	syscall.SIGINT,
+	// 	syscall.SIGTERM,
+	// )
+	// defer stop()
+
 	router := gin.Default()
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 
@@ -41,7 +47,7 @@ func (server *Server) setupRouter() {
 
 	authRoutes.POST("/transfer", server.createTransfer)
 
-	log.Fatal(autotls.Run(router, "api.bigcitybear.info"))
+	// log.Fatal(autotls.RunWithContext(ctx, router, "api.bigcitybear.info"))
 
 	server.router = router
 }
