@@ -44,7 +44,7 @@ server:
 	go mod tidy && go run main.go
 
 mock:
-	mockgen -package mockdb -destination db/mock/store.go github.com/cqhung1412/simple_bank/db/sqlc Store
+	mockgen -package mockdb -destination db/mock/store.go --build_flags=--mod=mod github.com/cqhung1412/simple_bank/db/sqlc Store
 
 dockerbuild:
 	docker build -t simple_bank:latest .

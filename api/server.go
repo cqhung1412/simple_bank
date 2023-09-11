@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"net/http"
 
 	db "github.com/cqhung1412/simple_bank/db/sqlc"
 	"github.com/cqhung1412/simple_bank/token"
@@ -19,9 +20,23 @@ type Server struct {
 }
 
 func (server *Server) setupRouter() {
+	// Create context that listens for the interrupt signal from the OS.
+	// _ctx, stop := signal.NotifyContext(
+	// 	context.Background(),
+	// 	syscall.SIGINT,
+	// 	syscall.SIGTERM,
+	// )
+	// defer stop()
+
 	router := gin.Default()
 	authRoutes := router.Group("/").Use(authMiddleware(server.tokenMaker))
 
+	router.GET("/", func(ctx *gin.Context) {
+		// hello route
+		ctx.JSON(http.StatusOK, gin.H{
+			"hello": "world",
+		})
+	})
 	router.POST("/user", server.createUser)
 	router.POST("/users/login", server.loginUser)
 
@@ -31,6 +46,8 @@ func (server *Server) setupRouter() {
 	authRoutes.DELETE("/accounts/:id", server.deleteAccount)
 
 	authRoutes.POST("/transfer", server.createTransfer)
+
+	// log.Fatal(autotls.RunWithContext(ctx, router, "api.bigcitybear.info"))
 
 	server.router = router
 }
