@@ -31,6 +31,9 @@ migratedown1:
 sqlc:
 	sqlc generate
 
+install:
+	go mod tidy
+
 build:
 	go build -v ./...
 

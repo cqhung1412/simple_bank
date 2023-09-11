@@ -64,6 +64,6 @@ jobs:
           kubectl apply -f aws/eks/aws-auth.yml
           kubectl apply -f aws/eks/deployment.yml
           kubectl apply -f aws/eks/service.yml
-          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.10.0/cert-manager.yaml
+          kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.0/cert-manager.yaml
           kubectl apply -f aws/eks/issuer.yml
           kubectl apply -f aws/eks/ingress.yml
